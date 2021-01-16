@@ -1,2 +1,5 @@
 # Open-Tree-GUI
-A simple GUI system created by layering and combining components
+
+## Description
+
+A simple GUI system utilizing layering and combining components, built on top of SFML
