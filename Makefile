@@ -1,6 +1,6 @@
 OBJNAME := 	opentreegui
 CPPC :=		g++
-CPPFLAGS :=	-O2 -Wall -Werror -std=c++17 -Iinc
+CPPFLAGS :=	-g -Wall -Werror -std=c++17 -Iinc
 LD		:=	ar
 LDFLAGS :=	-lsfml-graphics -lsfml-window -lsfml-system
 HEADERS :=	$(wildcard inc/*.hpp)

@@ -47,7 +47,6 @@ void ColorRect::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     sf::RectangleShape drawRect({
         static_cast<float>(rect.w), static_cast<float>(rect.h)
     });
-    drawRect.setOrigin(-rect.w / 2, -rect.h / 2);
     drawRect.setPosition(
         static_cast<float>(rect.x), static_cast<float>(rect.y)
     );
