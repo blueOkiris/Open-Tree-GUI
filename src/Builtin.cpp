@@ -4,8 +4,8 @@
 
 using namespace opentree;
 
-Rect NonContainer::getDrawRect() {
-    return getParent()->getDrawRect();
+Rect NonContainer::drawRect() {
+    return parent()->drawRect();
 }
 
 ColorRect::ColorRect(
@@ -14,7 +14,7 @@ ColorRect::ColorRect(
         _parent(parent), _color(red, green, blue, alpha) {
 }
 
-std::shared_ptr<IWidget> ColorRect::getParent() {
+std::shared_ptr<IWidget> ColorRect::parent() {
     return _parent;
 }
 
@@ -43,7 +43,7 @@ void ColorRect::onTextEntered(uint32_t character) {
 }
 
 void ColorRect::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-    auto rect = _parent->getDrawRect();
+    auto rect = _parent->drawRect();
     sf::RectangleShape drawRect({
         static_cast<float>(rect.w), static_cast<float>(rect.h)
     });

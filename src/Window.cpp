@@ -83,7 +83,6 @@ void Window::run() {
             }
         }
         
-        // Thread 2
         _window.clear();
         _window.draw(_root);
         _window.display();

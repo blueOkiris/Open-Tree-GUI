@@ -2,7 +2,7 @@ OBJNAME := 	opentreegui
 CPPC :=		g++
 CPPFLAGS :=	-g -Wall -Werror -std=c++17 -Iinc
 LD		:=	ar
-LDFLAGS :=	-lsfml-graphics -lsfml-window -lsfml-system
+LDFLAGS :=	-lsfml-graphics -lsfml-window -lsfml-system -lpthread
 HEADERS :=	$(wildcard inc/*.hpp)
 SRC :=		$(wildcard src/*.cpp)
 

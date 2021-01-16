@@ -5,7 +5,7 @@
 
 namespace opentree {
     struct NonContainer : public IWidget {
-        Rect getDrawRect() override;
+        Rect drawRect() override;
     };
     
     struct ColorRect : public NonContainer {
@@ -19,7 +19,7 @@ namespace opentree {
                 uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha
             );
             
-            std::shared_ptr<IWidget> getParent() override;
+            std::shared_ptr<IWidget> parent() override;
             void onKeyPressed(
                 sf::Keyboard::Key code,
                 bool altPressed, bool ctrlPressed, bool shiftPressed,
