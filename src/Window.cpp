@@ -15,11 +15,66 @@ void Window::run() {
     while(_window.isOpen()) {
         sf::Event event;
         while(_window.pollEvent(event)) {
-            if(event.type == sf::Event::Closed) {
-                _window.close();
+            // Thread 1
+            switch(event.type) {
+                case sf::Event::Closed:
+                    _window.close();
+                    break;
+                    
+                case sf::Event::KeyPressed:
+                    _root.onKeyPressed(
+                        event.key.code, event.key.alt, event.key.control,
+                        event.key.shift, event.key.system
+                    );
+                    break;
+                    
+                case sf::Event::KeyReleased:
+                    _root.onKeyReleased(
+                        event.key.code, event.key.alt, event.key.control,
+                        event.key.shift, event.key.system
+                    );
+                    break;
+                
+                case sf::Event::MouseButtonPressed:
+                    _root.onMouseButtonPressed(
+                        event.mouseButton.button,
+                        event.mouseButton.x, event.mouseButton.y
+                    );
+                    break;
+                
+                case sf::Event::MouseButtonReleased:
+                    _root.onMouseButtonReleased(
+                        event.mouseButton.button,
+                        event.mouseButton.x, event.mouseButton.y
+                    );
+                    break;
+                
+                case sf::Event::MouseMoved:
+                    _root.onMouseMoved(event.mouseMove.x, event.mouseMove.y);
+                    break;
+                
+                case sf::Event::MouseWheelScrolled:
+                    _root.onMouseScrolled(
+                        event.mouseWheelScroll.wheel,
+                        event.mouseWheelScroll.delta,
+                        event.mouseWheelScroll.x, event.mouseWheelScroll.y
+                    );
+                    break;
+                
+                case sf::Event::TextEntered:
+                    _root.onTextEntered(event.text.unicode);
+                    break;
+                
+                case sf::Event::Resized:
+                    _root.onWindowResized(event.size.width, event.size.height);
+                    break;
+                
+                default:
+                    break;
             }
         }
         
+        // Thread 2
         _window.clear();
         _window.draw(_root);
         _window.display();
