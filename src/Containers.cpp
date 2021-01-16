@@ -31,16 +31,14 @@ void Container::onKeyReleased(
     }
 }
 
-void Container::onMouseButtonPressed(
-        sf::Mouse::Button button, int x, int y) {
+void Container::onMouseButtonPressed(sf::Mouse::Button button, int x, int y) {
     auto children = getChildren();
     for(auto child : children) {
         child->onMouseButtonPressed(button, x, y);
     }
 }
 
-void Container::onMouseButtonReleased(
-        sf::Mouse::Button button, int x, int y) {
+void Container::onMouseButtonReleased(sf::Mouse::Button button, int x, int y) {
     auto children = getChildren();
     for(auto child : children) {
         child->onMouseButtonReleased(button, x, y);
@@ -62,8 +60,7 @@ void Container::onMouseScrolled(
     }
 }
 
-void Container::onWindowResized(
-        unsigned int width, unsigned int height) {
+void Container::onWindowResized(unsigned int width, unsigned int height) {
     auto children = getChildren();
     for(auto child : children) {
         child->onWindowResized(width, height);
@@ -88,6 +85,10 @@ std::shared_ptr<IWidget> BasicContainer::getParent() {
 
 std::vector<std::shared_ptr<IWidget>> BasicContainer::getChildren() {
     return _children;
+}
+
+void BasicContainer::addChild(std::shared_ptr<IWidget> child) {
+    _children.push_back(child);
 }
 
 void BasicContainer::draw(

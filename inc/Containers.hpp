@@ -8,6 +8,7 @@
 namespace opentree {
     struct Container : public IWidget {
         virtual std::vector<std::shared_ptr<IWidget>> getChildren() = 0;
+        virtual void addChild(std::shared_ptr<IWidget> child) = 0;
         
         void onKeyPressed(
             sf::Keyboard::Key code,
@@ -50,6 +51,7 @@ namespace opentree {
             std::shared_ptr<IWidget> getParent() override;
             Rect getDrawRect() override;
             std::vector<std::shared_ptr<IWidget>> getChildren() override;
+            void addChild(std::shared_ptr<IWidget> child) override;
             void draw(
                 sf::RenderTarget &target, sf::RenderStates states
             ) const override;

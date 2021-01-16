@@ -34,7 +34,8 @@ sfml-ex : $(wildcard examples/sfml-ex/*.cpp)
 	$(CPPC) $(CPPFLAGS) -o $@ $^ $(LDFLAGS)
 
 simple : lib$(OBJNAME).a $(wildcard examples/simple/*.cpp)
-	$(CPPC) $(CPPFLAGS) -o $@ $^ -L. -lopentreegui $(LDFLAGS)
+	$(CPPC) $(CPPFLAGS) -o $@ \
+		$(wildcard examples/simple/*.cpp) -L. -lopentreegui $(LDFLAGS)
 
 lib$(OBJNAME).a : $(OBJS)
 	$(LD) rcs $@ $(OBJS)

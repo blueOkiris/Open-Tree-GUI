@@ -1,5 +1,6 @@
 #include <memory>
 #include <SFML/Window.hpp>
+#include <Widget.hpp>
 #include <Containers.hpp>
 #include <Utility.hpp>
 #include <Window.hpp>
@@ -9,6 +10,14 @@ using namespace opentree;
 Window::Window(const Vector2 &size, const std::string &title) :
         _window(sf::VideoMode(size.x, size.y), title),
         _root(nullptr, _window) {
+}
+
+void Window::addWidget(std::shared_ptr<IWidget> child) {
+    _root.addChild(child);
+}
+
+std::shared_ptr<IWidget> Window::root() {
+    return std::make_shared<BasicContainer>(_root);
 }
 
 void Window::run() {
