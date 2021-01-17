@@ -74,34 +74,24 @@ void Container::onTextEntered(uint32_t character) {
     }
 }
 
-BasicContainer::BasicContainer(
-        const std::shared_ptr<IWidget> &parent, sf::RenderWindow &window) :
-        _parent(parent), _window(window) {
+WindowContainer::WindowContainer(sf::RenderWindow &window) : _window(window) {
 }
 
-std::shared_ptr<IWidget> BasicContainer::parent() {
-    return _parent;
-}
-
-std::vector<std::shared_ptr<IWidget>> BasicContainer::children() {
+std::vector<std::shared_ptr<IWidget>> WindowContainer::children() {
     return _children;
 }
 
-void BasicContainer::addChild(std::shared_ptr<IWidget> child) {
+void WindowContainer::addChild(std::shared_ptr<IWidget> child) {
     _children.push_back(child);
 }
 
-void BasicContainer::draw(
+void WindowContainer::draw(
         sf::RenderTarget &target, sf::RenderStates states) const {
     for(auto child : _children) {
+        child->setDrawRect({ 0, 0, _window.getSize().x, _window.getSize().y });
         target.draw(*std::dynamic_pointer_cast<Drawable>(child).get());
     }
 }
 
-Rect BasicContainer::drawRect() {
-    if(_parent != nullptr) {
-        return _parent->drawRect();
-    } else {
-        return { 0, 0, _window.getSize().x, _window.getSize().y };
-    }
+void WindowContainer::setDrawRect(const Rect drawRect) {
 }

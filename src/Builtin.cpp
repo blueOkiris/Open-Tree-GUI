@@ -1,21 +1,17 @@
+#include <iostream>
 #include <SFML/Graphics.hpp>
 #include <Widget.hpp>
 #include <Builtin.hpp>
 
 using namespace opentree;
 
-Rect NonContainer::drawRect() {
-    return parent()->drawRect();
-}
-
 ColorRect::ColorRect(
-        const std::shared_ptr<IWidget> &parent,
         uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha) :
-        _parent(parent), _color(red, green, blue, alpha) {
+        _color(red, green, blue, alpha) {
 }
 
-std::shared_ptr<IWidget> ColorRect::parent() {
-    return _parent;
+void ColorRect::setDrawRect(const Rect drawRect) {
+    _drawRect = drawRect;
 }
 
 void ColorRect::onKeyPressed(
@@ -43,13 +39,15 @@ void ColorRect::onTextEntered(uint32_t character) {
 }
 
 void ColorRect::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-    auto rect = _parent->drawRect();
-    sf::RectangleShape drawRect({
-        static_cast<float>(rect.w), static_cast<float>(rect.h)
+    sf::RectangleShape rect({
+        static_cast<float>(_drawRect.w), static_cast<float>(_drawRect.h)
     });
-    drawRect.setPosition(
-        static_cast<float>(rect.x), static_cast<float>(rect.y)
+    rect.setPosition(
+        static_cast<float>(_drawRect.x), static_cast<float>(_drawRect.y)
     );
-    drawRect.setFillColor(_color);
-    target.draw(drawRect);
+    std::cout << "Rect { " << _drawRect.x << ", " << _drawRect.y << ", "
+        << _drawRect.w << ", " << _drawRect.h << " }" << std::endl;
+
+    rect.setFillColor(_color);
+    target.draw(rect);
 }

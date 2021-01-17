@@ -7,8 +7,7 @@
 
 namespace opentree {
     struct IWidget : public sf::Drawable {
-        virtual Rect drawRect() = 0;
-        virtual std::shared_ptr<IWidget> parent() = 0;
+        virtual void setDrawRect(const Rect newRect) = 0;
         
         virtual void onKeyPressed(
             sf::Keyboard::Key code,

@@ -38,18 +38,14 @@ namespace opentree {
     };
     
     // Simply holds its children. Used as the base widget for Window
-    struct BasicContainer : public Container {
+    struct WindowContainer : public Container {
         private:
-            std::shared_ptr<IWidget> _parent;
             std::vector<std::shared_ptr<IWidget>> _children;
             sf::RenderWindow &_window;
         
         public:
-            BasicContainer(
-                const std::shared_ptr<IWidget> &parent, sf::RenderWindow &window
-            );
-            std::shared_ptr<IWidget> parent() override;
-            Rect drawRect() override;
+            WindowContainer(sf::RenderWindow &window);
+            void setDrawRect(const Rect drawRect) override;
             std::vector<std::shared_ptr<IWidget>> children() override;
             void addChild(std::shared_ptr<IWidget> child) override;
             void draw(

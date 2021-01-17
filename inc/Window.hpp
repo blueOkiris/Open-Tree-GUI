@@ -10,7 +10,7 @@ namespace opentree {
     class Window {
         private:
             sf::RenderWindow _window;
-            BasicContainer _root;
+            WindowContainer _root;
         
         public:
             Window(const Vector2 &size, const std::string &title);
