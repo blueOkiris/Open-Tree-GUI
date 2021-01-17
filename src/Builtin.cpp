@@ -45,8 +45,6 @@ void ColorRect::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     rect.setPosition(
         static_cast<float>(_drawRect.x), static_cast<float>(_drawRect.y)
     );
-    std::cout << "Rect { " << _drawRect.x << ", " << _drawRect.y << ", "
-        << _drawRect.w << ", " << _drawRect.h << " }" << std::endl;
 
     rect.setFillColor(_color);
     target.draw(rect);
