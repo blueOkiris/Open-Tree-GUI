@@ -52,4 +52,20 @@ namespace opentree {
                 sf::RenderTarget &target, sf::RenderStates states
             ) const override;
     };
+
+    // Holds its children but with margins
+    struct MarginContainer : public Container {
+        private:
+            std::vector<std::shared_ptr<IWidget>> _children;
+            Rect _drawRect, _marginRect;
+        
+        public:
+            MarginContainer(Rect margins);
+            void setDrawRect(const Rect drawRect) override;
+            std::vector<std::shared_ptr<IWidget>> children() override;
+            void addChild(std::shared_ptr<IWidget> child) override;
+            void draw(
+                sf::RenderTarget &target, sf::RenderStates states
+            ) const override;
+    };
 }

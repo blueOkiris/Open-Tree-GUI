@@ -77,6 +77,9 @@ void Container::onTextEntered(uint32_t character) {
 WindowContainer::WindowContainer(sf::RenderWindow &window) : _window(window) {
 }
 
+void WindowContainer::setDrawRect(const Rect drawRect) {
+}
+
 std::vector<std::shared_ptr<IWidget>> WindowContainer::children() {
     return _children;
 }
@@ -93,5 +96,30 @@ void WindowContainer::draw(
     }
 }
 
-void WindowContainer::setDrawRect(const Rect drawRect) {
+MarginContainer::MarginContainer(Rect margins) : _marginRect(margins) {
+}
+
+void MarginContainer::setDrawRect(const Rect drawRect) {
+    _drawRect = drawRect;
+}
+
+std::vector<std::shared_ptr<IWidget>> MarginContainer::children() {
+    return _children;
+}
+
+void MarginContainer::addChild(std::shared_ptr<IWidget> child) {
+    _children.push_back(child);
+}
+
+void MarginContainer::draw(
+        sf::RenderTarget &target, sf::RenderStates states) const {
+    Rect childRect = {
+        _marginRect.x, _marginRect.y,
+        _drawRect.w - _marginRect.w - _marginRect.x,
+        _drawRect.h - _marginRect.h - _marginRect.y
+    };
+    for(auto child : _children) {
+        child->setDrawRect(childRect);
+        target.draw(*std::dynamic_pointer_cast<Drawable>(child).get());
+    }
 }
