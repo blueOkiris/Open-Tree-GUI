@@ -1,5 +1,6 @@
 #include <vector>
 #include <memory>
+#include <iostream>
 #include <SFML/Graphics.hpp>
 #include <Widget.hpp>
 #include <Utility.hpp>
@@ -114,12 +115,42 @@ void MarginContainer::addChild(std::shared_ptr<IWidget> child) {
 void MarginContainer::draw(
         sf::RenderTarget &target, sf::RenderStates states) const {
     Rect childRect = {
-        _marginRect.x, _marginRect.y,
+        _drawRect.x + _marginRect.x, _drawRect.y + _marginRect.y,
         _drawRect.w - _marginRect.w - _marginRect.x,
         _drawRect.h - _marginRect.h - _marginRect.y
     };
     for(auto child : _children) {
         child->setDrawRect(childRect);
         target.draw(*std::dynamic_pointer_cast<Drawable>(child).get());
+    }
+}
+
+HBoxContainer::HBoxContainer(int separation) : _separation(separation) {
+}
+
+void HBoxContainer::setDrawRect(const Rect drawRect) {
+    _drawRect = drawRect;
+}
+
+std::vector<std::shared_ptr<IWidget>> HBoxContainer::children() {
+    return _children;
+}
+
+void HBoxContainer::addChild(std::shared_ptr<IWidget> child) {
+    _children.push_back(child);
+}
+
+void HBoxContainer::draw(
+        sf::RenderTarget &target, sf::RenderStates states) const {
+    for(size_t i = 0; i < _children.size(); i++) {
+        unsigned int index = static_cast<unsigned int>(i);
+        unsigned int childnSz = static_cast<unsigned int>(_children.size());
+        Rect childRect = {
+            index * (_drawRect.w / childnSz) + index * _separation, 0,
+            _drawRect.w / childnSz - ((childnSz - 1) * _separation),
+            _drawRect.h
+        };
+        _children[i]->setDrawRect(childRect);
+        target.draw(*std::dynamic_pointer_cast<Drawable>(_children[i]).get());
     }
 }
