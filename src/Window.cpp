@@ -7,8 +7,11 @@
 
 using namespace opentree;
 
-Window::Window(const Vector2 &size, const std::string &title) :
-        _window(sf::VideoMode(size.x, size.y), title), _root(_window) {
+Window::Window(
+        const Vector2 &size,  const Vector2 &minSize,
+        const std::string &title) :
+        _window(sf::VideoMode(size.x, size.y), title), _root(_window),
+        _minSize(minSize) {
 }
 
 void Window::addWidget(std::shared_ptr<IWidget> child) {
@@ -74,11 +77,23 @@ void Window::run() {
                     break;
                 
                 case sf::Event::Resized:
+                    if(event.size.width < _minSize.x) {
+                        _window.setSize(sf::Vector2u(
+                            _minSize.x, _window.getSize().y
+                        ));
+                    }
+
+                    if(event.size.height < _minSize.y) {
+                        _window.setSize(sf::Vector2u(
+                            _window.getSize().x, _minSize.y
+                        ));
+                    }
+
                     {
                         sf::View newView;
-                        newView.reset(
-                            sf::FloatRect(0, 0, event.size.width, event.size.height)
-                        );
+                        newView.reset(sf::FloatRect(
+                            0, 0, event.size.width, event.size.height
+                        ));
                         newView.setViewport(
                             sf::FloatRect(0, 0, 1, 1)
                         );

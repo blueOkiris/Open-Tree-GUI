@@ -11,9 +11,13 @@ namespace opentree {
         private:
             sf::RenderWindow _window;
             WindowContainer _root;
+            Vector2 _minSize;
         
         public:
-            Window(const Vector2 &size, const std::string &title);
+            Window(
+                const Vector2 &size, const Vector2 &minSize,
+                const std::string &title
+            );
             void addWidget(std::shared_ptr<IWidget> child);
             std::shared_ptr<IWidget> root();
             void run();
