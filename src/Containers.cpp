@@ -146,9 +146,43 @@ void HBoxContainer::draw(
         unsigned int index = static_cast<unsigned int>(i);
         unsigned int childnSz = static_cast<unsigned int>(_children.size());
         Rect childRect = {
-            index * (_drawRect.w / childnSz) + index * _separation, 0,
+            _drawRect.x +
+                index * (_drawRect.w / childnSz) + index * _separation,
+            _drawRect.y,
             _drawRect.w / childnSz - ((childnSz - 1) * _separation),
             _drawRect.h
+        };
+        _children[i]->setDrawRect(childRect);
+        target.draw(*std::dynamic_pointer_cast<Drawable>(_children[i]).get());
+    }
+}
+
+VBoxContainer::VBoxContainer(int separation) : _separation(separation) {
+}
+
+void VBoxContainer::setDrawRect(const Rect drawRect) {
+    _drawRect = drawRect;
+}
+
+std::vector<std::shared_ptr<IWidget>> VBoxContainer::children() {
+    return _children;
+}
+
+void VBoxContainer::addChild(std::shared_ptr<IWidget> child) {
+    _children.push_back(child);
+}
+
+void VBoxContainer::draw(
+        sf::RenderTarget &target, sf::RenderStates states) const {
+    for(size_t i = 0; i < _children.size(); i++) {
+        unsigned int index = static_cast<unsigned int>(i);
+        unsigned int childnSz = static_cast<unsigned int>(_children.size());
+        Rect childRect = {
+            _drawRect.x,
+            _drawRect.y
+                + index * (_drawRect.h / childnSz) + index * _separation,
+            _drawRect.w,
+            _drawRect.h / childnSz - ((childnSz - 1) * _separation),
         };
         _children[i]->setDrawRect(childRect);
         target.draw(*std::dynamic_pointer_cast<Drawable>(_children[i]).get());

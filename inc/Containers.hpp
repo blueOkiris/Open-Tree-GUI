@@ -85,4 +85,21 @@ namespace opentree {
                 sf::RenderTarget &target, sf::RenderStates states
             ) const override;
     };
+
+    // Evenly separates its children vertically
+    struct VBoxContainer : public Container {
+        private:
+            std::vector<std::shared_ptr<IWidget>> _children;
+            Rect _drawRect;
+            int _separation;
+        
+        public:
+            VBoxContainer(int separation);
+            void setDrawRect(const Rect drawRect) override;
+            std::vector<std::shared_ptr<IWidget>> children() override;
+            void addChild(std::shared_ptr<IWidget> child) override;
+            void draw(
+                sf::RenderTarget &target, sf::RenderStates states
+            ) const override;
+    };
 }
