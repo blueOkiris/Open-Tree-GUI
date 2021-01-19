@@ -100,6 +100,10 @@ void WindowContainer::draw(
 MarginContainer::MarginContainer(Rect margins) : _marginRect(margins) {
 }
 
+std::shared_ptr<MarginContainer> MarginContainer::create(Rect margins) {
+    return std::make_shared<MarginContainer>(margins);
+}
+
 void MarginContainer::setDrawRect(const Rect drawRect) {
     _drawRect = drawRect;
 }
@@ -126,6 +130,10 @@ void MarginContainer::draw(
 }
 
 HBoxContainer::HBoxContainer(int separation) : _separation(separation) {
+}
+
+std::shared_ptr<HBoxContainer> HBoxContainer::create(int separation) {
+    return std::make_shared<HBoxContainer>(separation);
 }
 
 void HBoxContainer::setDrawRect(const Rect drawRect) {
@@ -158,6 +166,10 @@ void HBoxContainer::draw(
 }
 
 VBoxContainer::VBoxContainer(int separation) : _separation(separation) {
+}
+
+std::shared_ptr<VBoxContainer> VBoxContainer::create(int separation) {
+    return std::make_shared<VBoxContainer>(separation);
 }
 
 void VBoxContainer::setDrawRect(const Rect drawRect) {

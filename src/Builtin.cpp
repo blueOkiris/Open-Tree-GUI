@@ -10,6 +10,12 @@ ColorRect::ColorRect(
         _color(red, green, blue, alpha) {
 }
 
+std::shared_ptr<ColorRect> ColorRect::create(
+        uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha) {
+    return std::make_shared<ColorRect>(red, green, blue, alpha);
+}
+
+
 void ColorRect::setDrawRect(const Rect drawRect) {
     _drawRect = drawRect;
 }

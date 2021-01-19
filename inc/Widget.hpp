@@ -6,7 +6,8 @@
 #include <Utility.hpp>
 
 namespace opentree {
-    struct IWidget : public sf::Drawable {
+    struct IWidget :
+            public sf::Drawable, public std::enable_shared_from_this<IWidget> {
         virtual void setDrawRect(const Rect newRect) = 0;
         
         virtual void onKeyPressed(

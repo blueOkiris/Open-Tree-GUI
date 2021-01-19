@@ -43,7 +43,7 @@ namespace opentree {
             std::vector<IWidgetPtr> _children;
             sf::RenderWindow &_window;
         
-        public:
+        public:            
             WindowContainer(sf::RenderWindow &window);
             void setDrawRect(const Rect drawRect) override;
             std::vector<IWidgetPtr> children() override;
@@ -60,6 +60,8 @@ namespace opentree {
             Rect _drawRect, _marginRect;
         
         public:
+            static std::shared_ptr<MarginContainer> create(Rect margins);
+
             MarginContainer(Rect margins);
             void setDrawRect(const Rect drawRect) override;
             std::vector<IWidgetPtr> children() override;
@@ -77,6 +79,8 @@ namespace opentree {
             int _separation;
         
         public:
+            static std::shared_ptr<HBoxContainer> create(int separation);
+
             HBoxContainer(int separation);
             void setDrawRect(const Rect drawRect) override;
             std::vector<IWidgetPtr> children() override;
@@ -94,6 +98,8 @@ namespace opentree {
             int _separation;
         
         public:
+            static std::shared_ptr<VBoxContainer> create(int separation);
+
             VBoxContainer(int separation);
             void setDrawRect(const Rect drawRect) override;
             std::vector<IWidgetPtr> children() override;
