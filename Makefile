@@ -30,12 +30,12 @@ obj/%.o : src/%.cpp $(HEADERS)
 .PHONY : examples
 examples : sfml-ex simple
 
-sfml-ex : $(wildcard examples/sfml-ex/*.cpp)
+sfml-ex : $(wildcard examples/sfml-example/*.cpp)
 	$(CPPC) $(CPPFLAGS) -o $@ $^ $(LDFLAGS)
 
-simple : lib$(OBJNAME).a $(wildcard examples/simple/*.cpp)
+simple : lib$(OBJNAME).a $(wildcard examples/simple-example/*.cpp)
 	$(CPPC) $(CPPFLAGS) -o $@ \
-		$(wildcard examples/simple/*.cpp) -L. -lopentreegui $(LDFLAGS)
+		$(wildcard examples/simple-example/*.cpp) -L. -lopentreegui $(LDFLAGS)
 
 lib$(OBJNAME).a : $(OBJS)
 	$(LD) rcs $@ $(OBJS)
