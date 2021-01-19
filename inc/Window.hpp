@@ -18,8 +18,8 @@ namespace opentree {
                 const Vector2 &size, const Vector2 &minSize,
                 const std::string &title
             );
-            void addWidget(std::shared_ptr<IWidget> child);
-            std::shared_ptr<IWidget> root();
+            void addWidget(IWidgetPtr child);
+            IWidgetPtr root();
             void run();
     };
 }

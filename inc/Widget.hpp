@@ -35,4 +35,6 @@ namespace opentree {
         ) = 0;
         virtual void onTextEntered(uint32_t character) = 0;
     };
+
+    typedef std::shared_ptr<IWidget> IWidgetPtr;
 }

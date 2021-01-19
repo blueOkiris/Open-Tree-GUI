@@ -81,11 +81,11 @@ WindowContainer::WindowContainer(sf::RenderWindow &window) : _window(window) {
 void WindowContainer::setDrawRect(const Rect drawRect) {
 }
 
-std::vector<std::shared_ptr<IWidget>> WindowContainer::children() {
+std::vector<IWidgetPtr> WindowContainer::children() {
     return _children;
 }
 
-void WindowContainer::addChild(std::shared_ptr<IWidget> child) {
+void WindowContainer::addChild(IWidgetPtr child) {
     _children.push_back(child);
 }
 
@@ -104,11 +104,11 @@ void MarginContainer::setDrawRect(const Rect drawRect) {
     _drawRect = drawRect;
 }
 
-std::vector<std::shared_ptr<IWidget>> MarginContainer::children() {
+std::vector<IWidgetPtr> MarginContainer::children() {
     return _children;
 }
 
-void MarginContainer::addChild(std::shared_ptr<IWidget> child) {
+void MarginContainer::addChild(IWidgetPtr child) {
     _children.push_back(child);
 }
 
@@ -132,11 +132,11 @@ void HBoxContainer::setDrawRect(const Rect drawRect) {
     _drawRect = drawRect;
 }
 
-std::vector<std::shared_ptr<IWidget>> HBoxContainer::children() {
+std::vector<IWidgetPtr> HBoxContainer::children() {
     return _children;
 }
 
-void HBoxContainer::addChild(std::shared_ptr<IWidget> child) {
+void HBoxContainer::addChild(IWidgetPtr child) {
     _children.push_back(child);
 }
 
@@ -164,11 +164,11 @@ void VBoxContainer::setDrawRect(const Rect drawRect) {
     _drawRect = drawRect;
 }
 
-std::vector<std::shared_ptr<IWidget>> VBoxContainer::children() {
+std::vector<IWidgetPtr> VBoxContainer::children() {
     return _children;
 }
 
-void VBoxContainer::addChild(std::shared_ptr<IWidget> child) {
+void VBoxContainer::addChild(IWidgetPtr child) {
     _children.push_back(child);
 }
 

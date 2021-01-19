@@ -7,8 +7,8 @@
 
 namespace opentree {
     struct Container : public IWidget {
-        virtual std::vector<std::shared_ptr<IWidget>> children() = 0;
-        virtual void addChild(std::shared_ptr<IWidget> child) = 0;
+        virtual std::vector<IWidgetPtr> children() = 0;
+        virtual void addChild(IWidgetPtr child) = 0;
         
         void onKeyPressed(
             sf::Keyboard::Key code,
@@ -40,14 +40,14 @@ namespace opentree {
     // Simply holds its children. Used as the base widget for Window
     struct WindowContainer : public Container {
         private:
-            std::vector<std::shared_ptr<IWidget>> _children;
+            std::vector<IWidgetPtr> _children;
             sf::RenderWindow &_window;
         
         public:
             WindowContainer(sf::RenderWindow &window);
             void setDrawRect(const Rect drawRect) override;
-            std::vector<std::shared_ptr<IWidget>> children() override;
-            void addChild(std::shared_ptr<IWidget> child) override;
+            std::vector<IWidgetPtr> children() override;
+            void addChild(IWidgetPtr child) override;
             void draw(
                 sf::RenderTarget &target, sf::RenderStates states
             ) const override;
@@ -56,14 +56,14 @@ namespace opentree {
     // Holds its children but with margins
     struct MarginContainer : public Container {
         private:
-            std::vector<std::shared_ptr<IWidget>> _children;
+            std::vector<IWidgetPtr> _children;
             Rect _drawRect, _marginRect;
         
         public:
             MarginContainer(Rect margins);
             void setDrawRect(const Rect drawRect) override;
-            std::vector<std::shared_ptr<IWidget>> children() override;
-            void addChild(std::shared_ptr<IWidget> child) override;
+            std::vector<IWidgetPtr> children() override;
+            void addChild(IWidgetPtr child) override;
             void draw(
                 sf::RenderTarget &target, sf::RenderStates states
             ) const override;
@@ -72,15 +72,15 @@ namespace opentree {
     // Evenly separates its children horizontally
     struct HBoxContainer : public Container {
         private:
-            std::vector<std::shared_ptr<IWidget>> _children;
+            std::vector<IWidgetPtr> _children;
             Rect _drawRect;
             int _separation;
         
         public:
             HBoxContainer(int separation);
             void setDrawRect(const Rect drawRect) override;
-            std::vector<std::shared_ptr<IWidget>> children() override;
-            void addChild(std::shared_ptr<IWidget> child) override;
+            std::vector<IWidgetPtr> children() override;
+            void addChild(IWidgetPtr child) override;
             void draw(
                 sf::RenderTarget &target, sf::RenderStates states
             ) const override;
@@ -89,15 +89,15 @@ namespace opentree {
     // Evenly separates its children vertically
     struct VBoxContainer : public Container {
         private:
-            std::vector<std::shared_ptr<IWidget>> _children;
+            std::vector<IWidgetPtr> _children;
             Rect _drawRect;
             int _separation;
         
         public:
             VBoxContainer(int separation);
             void setDrawRect(const Rect drawRect) override;
-            std::vector<std::shared_ptr<IWidget>> children() override;
-            void addChild(std::shared_ptr<IWidget> child) override;
+            std::vector<IWidgetPtr> children() override;
+            void addChild(IWidgetPtr child) override;
             void draw(
                 sf::RenderTarget &target, sf::RenderStates states
             ) const override;

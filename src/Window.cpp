@@ -14,11 +14,11 @@ Window::Window(
         _minSize(minSize) {
 }
 
-void Window::addWidget(std::shared_ptr<IWidget> child) {
+void Window::addWidget(IWidgetPtr child) {
     _root.addChild(child);
 }
 
-std::shared_ptr<IWidget> Window::root() {
+IWidgetPtr Window::root() {
     return std::make_shared<WindowContainer>(_root);
 }
 
