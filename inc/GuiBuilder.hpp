@@ -11,6 +11,8 @@ namespace opentree {
             std::vector<FromStringFunc> _createFuncs;
         
         public:
+            GuiBuilder();
+        
             void addBuildFunction(const FromStringFunc &func);
             Window fromString(const std::string &src);
     };
