@@ -1,6 +1,7 @@
 #include <vector>
 #include <memory>
 #include <iostream>
+#include <string>
 #include <SFML/Graphics.hpp>
 #include <Widget.hpp>
 #include <Utility.hpp>
@@ -100,8 +101,63 @@ void WindowContainer::draw(
 MarginContainer::MarginContainer(Rect margins) : _marginRect(margins) {
 }
 
-std::shared_ptr<MarginContainer> MarginContainer::create(Rect margins) {
-    return std::make_shared<MarginContainer>(margins);
+IWidgetPtr MarginContainer::create(const AttributeSet &attr) {
+    /*
+     * Should have one attribute "margin"
+     * which is a comma delimited set like margin="0,0,0,0"
+     * 
+     * Whitespace shouldn't matter and everything should be integer
+     * Also program shouldn't fail on error, simply print message to console
+     */
+    
+    Rect marginRect = { 0, 0, 0, 0 };
+    
+    for(const auto attrPair : attr) {
+        if(attrPair.first == "margin") {
+            // First split by commas
+            std::vector<std::string> numStrs;
+            std::string::size_type beg = 0;
+            for(    std::string::size_type end = 0;
+                    (end = attrPair.second.find(',', end)) != std::string::npos;
+                    ++end) {
+                numStrs.push_back(attrPair.second.substr(beg, end - beg));
+                beg = end + 1;
+            }
+            numStrs.push_back(attrPair.second.substr(beg));
+                
+            std::vector<int> numbers;
+            for(const auto numStr : numStrs) {
+                try {
+                    int value = std::stoi(numStr, nullptr);
+                    numbers.push_back(value);
+                } catch(...) {
+                    std::cout
+                        << "Unknown value in margin container margin: "
+                        << attrPair.second
+                        << std::endl;
+                }
+            }
+            
+            if(numbers.size() > 0) {
+                marginRect.x = numbers[0];
+            }
+            if(numbers.size() > 1) {
+                marginRect.y = numbers[1];
+            }
+            if(numbers.size() > 2) {
+                marginRect.w = numbers[2];
+            }
+            if(numbers.size() > 3) {
+                marginRect.h = numbers[3];
+            }
+        } else {
+            std::cout
+                << "Unknown margin container attribute: " << attrPair.first
+                << std::endl;
+        }
+    }
+    
+    return std::make_shared<MarginContainer>(marginRect);
 }
 
 void MarginContainer::setDrawRect(const Rect drawRect) {
@@ -132,7 +188,28 @@ void MarginContainer::draw(
 HBoxContainer::HBoxContainer(int separation) : _separation(separation) {
 }
 
-std::shared_ptr<HBoxContainer> HBoxContainer::create(int separation) {
+IWidgetPtr HBoxContainer::create(const AttributeSet &attr) {
+    int separation = 0;
+    
+    for(const auto attrPair : attr) {
+        if(attrPair.first == "separation") {
+            try {
+                int value = std::stoi(attrPair.second, nullptr);
+                separation = value;
+            } catch(...) {
+                std::cout
+                    << "Unknown value in horizontal box container separation: "
+                    << attrPair.second
+                    << std::endl;
+            }
+        } else {
+            std::cout
+                << "Unknown horizontal box container attribute: "
+                << attrPair.first
+                << std::endl;
+        }
+    }
+        
     return std::make_shared<HBoxContainer>(separation);
 }
 
@@ -168,7 +245,28 @@ void HBoxContainer::draw(
 VBoxContainer::VBoxContainer(int separation) : _separation(separation) {
 }
 
-std::shared_ptr<VBoxContainer> VBoxContainer::create(int separation) {
+IWidgetPtr VBoxContainer::create(const AttributeSet &attr) {
+    int separation = 0;
+    
+    for(const auto attrPair : attr) {
+        if(attrPair.first == "separation") {
+            try {
+                int value = std::stoi(attrPair.second, nullptr);
+                separation = value;
+            } catch(...) {
+                std::cout
+                    << "Unknown value in vertical box container separation: "
+                    << attrPair.second
+                    << std::endl;
+            }
+        } else {
+            std::cout
+                << "Unknown vertical box container attribute: "
+                << attrPair.first
+                << std::endl;
+        }
+    }
+    
     return std::make_shared<VBoxContainer>(separation);
 }
 

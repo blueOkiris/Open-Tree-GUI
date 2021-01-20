@@ -60,7 +60,7 @@ namespace opentree {
             Rect _drawRect, _marginRect;
         
         public:
-            static std::shared_ptr<MarginContainer> create(Rect margins);
+            static IWidgetPtr create(const AttributeSet &attr);
 
             MarginContainer(Rect margins);
             void setDrawRect(const Rect drawRect) override;
@@ -79,7 +79,7 @@ namespace opentree {
             int _separation;
         
         public:
-            static std::shared_ptr<HBoxContainer> create(int separation);
+            static IWidgetPtr create(const AttributeSet &attr);
 
             HBoxContainer(int separation);
             void setDrawRect(const Rect drawRect) override;
@@ -98,7 +98,7 @@ namespace opentree {
             int _separation;
         
         public:
-            static std::shared_ptr<VBoxContainer> create(int separation);
+            static IWidgetPtr create(const AttributeSet &attr);
 
             VBoxContainer(int separation);
             void setDrawRect(const Rect drawRect) override;

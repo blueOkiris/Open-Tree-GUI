@@ -10,9 +10,7 @@ namespace opentree {
             sf::Color _color;
             
         public:
-            static std::shared_ptr<ColorRect> create(
-                uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha
-            );
+            static IWidgetPtr create(const AttributeSet &attr);
 
             ColorRect(
                 uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha

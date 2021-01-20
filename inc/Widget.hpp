@@ -1,6 +1,8 @@
 #pragma once
 
 #include <memory>
+#include <map>
+#include <functional>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <Utility.hpp>
@@ -38,4 +40,6 @@ namespace opentree {
     };
 
     typedef std::shared_ptr<IWidget> IWidgetPtr;
+    typedef std::map<std::string, std::string> AttributeSet;
+    typedef std::function<IWidgetPtr(const AttributeSet &)> FromStringFunc;
 }
