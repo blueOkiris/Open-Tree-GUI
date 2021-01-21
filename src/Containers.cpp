@@ -9,7 +9,7 @@
 
 using namespace opentree;
 
-void Container::onKeyPressed(
+void IContainer::onKeyPressed(
         sf::Keyboard::Key code,
         bool altPressed, bool ctrlPressed, bool shiftPressed,
         bool systemPressed) {
@@ -21,7 +21,7 @@ void Container::onKeyPressed(
     }
 }
 
-void Container::onKeyReleased(
+void IContainer::onKeyReleased(
         sf::Keyboard::Key code,
         bool altPressed, bool ctrlPressed, bool shiftPressed,
         bool systemPressed) {
@@ -33,28 +33,28 @@ void Container::onKeyReleased(
     }
 }
 
-void Container::onMouseButtonPressed(sf::Mouse::Button button, int x, int y) {
+void IContainer::onMouseButtonPressed(sf::Mouse::Button button, int x, int y) {
     auto childs = children();
     for(auto child : childs) {
         child->onMouseButtonPressed(button, x, y);
     }
 }
 
-void Container::onMouseButtonReleased(sf::Mouse::Button button, int x, int y) {
+void IContainer::onMouseButtonReleased(sf::Mouse::Button button, int x, int y) {
     auto childs = children();
     for(auto child : childs) {
         child->onMouseButtonReleased(button, x, y);
     }
 }
 
-void Container::onMouseMoved(int x, int y) {
+void IContainer::onMouseMoved(int x, int y) {
     auto childs = children();
     for(auto child : childs) {
         child->onMouseMoved(x, y);
     }
 }
 
-void Container::onMouseScrolled(
+void IContainer::onMouseScrolled(
         sf::Mouse::Wheel wheel, float delta, int x, int y) {
     auto childs = children();
     for(auto child : childs) {
@@ -62,14 +62,14 @@ void Container::onMouseScrolled(
     }
 }
 
-void Container::onWindowResized(unsigned int width, unsigned int height) {
+void IContainer::onWindowResized(unsigned int width, unsigned int height) {
     auto childs = children();
     for(auto child : childs) {
         child->onWindowResized(width, height);
     }
 }
 
-void Container::onTextEntered(uint32_t character) {
+void IContainer::onTextEntered(uint32_t character) {
     auto childs = children();
     for(auto child : childs) {
         child->onTextEntered(character);

@@ -1,6 +1,7 @@
 #include <map>
 #include <iostream>
 #include <string>
+#include <memory>
 #include <TinyXml2.hpp>
 #include <Containers.hpp>
 #include <Builtin.hpp>
@@ -26,7 +27,7 @@ void GuiBuilder::addBuildFunction(
     _createFuncs[tagName] = func;
 }
 
-Window GuiBuilder::fromString(const std::string &src) {
+std::shared_ptr<Window> GuiBuilder::fromString(const std::string &src) {
     tinyxml2::XMLDocument doc(true, tinyxml2::COLLAPSE_WHITESPACE);
     auto errorCode = doc.Parse(src.c_str(), src.length());
 
@@ -43,12 +44,12 @@ Window GuiBuilder::fromString(const std::string &src) {
             << "An error occurred parsing xml. Error code: "
             << errorCode << "." << std::endl
             << "Message: " << doc.ErrorStr() << "." << std::endl;
-        return Window({ 640, 480 }, { 640, 480 }, "EMPTY");
+        return nullptr;
     }
 
     if(std::string(doc.FirstChildElement()->Name()) != "window-container") {
         std::cout << "Error: First node is not window-container." << std::endl;
-        return Window({ 640, 480 }, { 640, 480 }, "EMPTY");
+        return nullptr;
     }
 
     // Get the size stuff
@@ -57,14 +58,14 @@ Window GuiBuilder::fromString(const std::string &src) {
         std::cout
             << "Error: No size attribute provided in win cont!"
             << std::endl;
-        return Window({ 640, 480 }, { 640, 480 }, "EMPTY");
+        return nullptr;
     }
     auto sizeNumStrs = strsplit(sizeStr, ',');
     if(sizeNumStrs.size() != 2) {
         std::cout
             << "Error: Wrong number of args in win cont size attr!"
             << std::endl;
-        return Window({ 640, 480 }, { 640, 480 }, "EMPTY");
+        return nullptr;
     }
     unsigned int width = 0, height = 0;
     try {
@@ -72,7 +73,7 @@ Window GuiBuilder::fromString(const std::string &src) {
         height = std::stoi(sizeNumStrs[1]);
     } catch(...) {
         std::cout << "Error: Failed to parse size in win cont!" << std::endl;
-        return Window({ 640, 480 }, { 640, 480 }, "EMPTY");
+        return nullptr;
     }
 
     // Get the min size stuff
@@ -81,14 +82,14 @@ Window GuiBuilder::fromString(const std::string &src) {
         std::cout
             << "Error: No min-size attribute provided in win cont!"
             << std::endl;
-        return Window({ 640, 480 }, { 640, 480 }, "EMPTY");
+        return nullptr;
     }
     sizeNumStrs = strsplit(sizeStr, ',');
     if(sizeNumStrs.size() != 2) {
         std::cout
             << "Error: Wrong number of args in win cont min-size attr!"
             << std::endl;
-        return Window({ 640, 480 }, { 640, 480 }, "EMPTY");
+        return nullptr;
     }
     unsigned int minWidth = 0, minHeight = 0;
     try {
@@ -98,21 +99,61 @@ Window GuiBuilder::fromString(const std::string &src) {
         std::cout
             << "Error: Failed to parse min-size in win cont!"
             << std::endl;
-        return Window({ 640, 480 }, { 640, 480 }, "EMPTY");
+        return nullptr;
     }
 
     // Get title
     auto titleStr = doc.FirstChildElement()->Attribute("title");
     if(titleStr == NULL) {
         std::cout << "Error: No title attr in window container!" << std::endl;
-        return Window({ 640, 480 }, { 640, 480 }, "EMPTY");
+        return nullptr;
+    }
+
+    auto window = std::make_shared<Window>(
+        Vector2 { width, height }, Vector2 { minWidth, minHeight },
+        std::string(titleStr)
+    );
+
+    // Add children things
+    auto firstChild = doc.FirstChildElement()->FirstChildElement();
+    while(firstChild) {
+        //std::cout << "Child: " << firstChild->Name() << std::endl;
+        window->addWidget(_fromXmlElement(firstChild));
+        firstChild = firstChild->NextSiblingElement();
     }
     
-    return Window(
-        { width, height }, { minWidth, minHeight }, std::string(titleStr)
-    );
+    return window;
 }
 
-IWidgetPtr _fromXmlElement(tinyxml2::XMLElement *elem) {
-    return nullptr;
+IWidgetPtr GuiBuilder::_fromXmlElement(tinyxml2::XMLElement *elem) {
+    // First construct self from attributes and create func
+    AttributeSet attrList;
+    auto attr = elem->FirstAttribute();
+    while(attr) {
+        /*std::cout
+            << "Attr: { " << attr->Name() << ", " << attr->Value() << " }"
+            << std::endl;*/
+        attrList[attr->Name()] = attr->Value();
+        attr = attr->Next();
+    }
+    auto self = _createFuncs[elem->Name()](attrList);
+
+    // Add children
+    auto child = elem->FirstChildElement();
+    while(child) {
+        auto selfAsCont = std::dynamic_pointer_cast<IContainer>(self);
+
+        if(!self) {
+            std::cout
+                << "Attempting to add child to non container in "
+                << elem->Name() << "!"
+                << std::endl;
+        } else {
+            selfAsCont->addChild(_fromXmlElement(child));
+        }
+
+        child = child->NextSiblingElement();
+    }
+
+    return self;
 }

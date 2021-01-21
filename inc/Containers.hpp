@@ -6,7 +6,7 @@
 #include <Widget.hpp>
 
 namespace opentree {
-    struct Container : public IWidget {
+    struct IContainer : public IWidget {
         virtual std::vector<IWidgetPtr> children() = 0;
         virtual void addChild(IWidgetPtr child) = 0;
         
@@ -38,7 +38,7 @@ namespace opentree {
     };
     
     // Simply holds its children. Used as the base widget for Window
-    struct WindowContainer : public Container {
+    struct WindowContainer : public IContainer {
         private:
             std::vector<IWidgetPtr> _children;
             sf::RenderWindow &_window;
@@ -54,7 +54,7 @@ namespace opentree {
     };
 
     // Holds its children but with margins
-    struct MarginContainer : public Container {
+    struct MarginContainer : public IContainer {
         private:
             std::vector<IWidgetPtr> _children;
             Rect _drawRect, _marginRect;
@@ -72,7 +72,7 @@ namespace opentree {
     };
 
     // Evenly separates its children horizontally
-    struct HBoxContainer : public Container {
+    struct HBoxContainer : public IContainer {
         private:
             std::vector<IWidgetPtr> _children;
             Rect _drawRect;
@@ -91,7 +91,7 @@ namespace opentree {
     };
 
     // Evenly separates its children vertically
-    struct VBoxContainer : public Container {
+    struct VBoxContainer : public IContainer {
         private:
             std::vector<IWidgetPtr> _children;
             Rect _drawRect;

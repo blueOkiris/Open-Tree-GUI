@@ -28,7 +28,10 @@ int main() {
         "   </margin-container>\n"
         "</window-container>"
     );
-    win.run();
+    
+    if(win) {
+        win->run();
+    }
 
     return 0;
 }
