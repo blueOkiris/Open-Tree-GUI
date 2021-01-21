@@ -114,17 +114,8 @@ IWidgetPtr MarginContainer::create(const AttributeSet &attr) {
     
     for(const auto attrPair : attr) {
         if(attrPair.first == "margin") {
-            // First split by commas
-            std::vector<std::string> numStrs;
-            std::string::size_type beg = 0;
-            for(    std::string::size_type end = 0;
-                    (end = attrPair.second.find(',', end)) != std::string::npos;
-                    ++end) {
-                numStrs.push_back(attrPair.second.substr(beg, end - beg));
-                beg = end + 1;
-            }
-            numStrs.push_back(attrPair.second.substr(beg));
-                
+            auto numStrs = strsplit(attrPair.second, ',');
+
             std::vector<int> numbers;
             for(const auto numStr : numStrs) {
                 try {
