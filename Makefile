@@ -1,6 +1,6 @@
 OBJNAME := 	opentreegui
 CPPC :=		g++
-CPPFLAGS :=	-g -Wall -Werror -std=c++17 -Iinc
+CPPFLAGS :=	-O2 -Wall -Werror -std=c++17 -Iinc
 LD		:=	ar
 LDFLAGS :=	-lsfml-graphics -lsfml-window -lsfml-system -lpthread
 HEADERS :=	$(wildcard inc/*.hpp)
@@ -28,7 +28,7 @@ obj/%.o : src/%.cpp $(HEADERS)
 	$(CPPC) $(CPPFLAGS) -o $@ -c $<
 
 .PHONY : examples
-examples : sfml-ex simple text
+examples : sfml-ex simple text file
 
 sfml-ex : $(wildcard examples/sfml-example/*.cpp)
 	$(CPPC) $(CPPFLAGS) -o $@ $^ $(LDFLAGS)
@@ -40,6 +40,10 @@ simple : lib$(OBJNAME).a $(wildcard examples/simple-example/*.cpp)
 text : lib$(OBJNAME).a $(wildcard examples/text-example/*.cpp)
 	$(CPPC) $(CPPFLAGS) -o $@ \
 		$(wildcard examples/text-example/*.cpp) -L. -lopentreegui $(LDFLAGS)
+
+file : lib$(OBJNAME).a $(wildcard examples/file-example/*.cpp)
+	$(CPPC) $(CPPFLAGS) -o $@ \
+		$(wildcard examples/file-example/*.cpp) -L. -lopentreegui $(LDFLAGS)
 
 lib$(OBJNAME).a : $(OBJS)
 	$(LD) rcs $@ $(OBJS)
