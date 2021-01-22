@@ -41,5 +41,9 @@ namespace opentree {
 
     typedef std::shared_ptr<IWidget> IWidgetPtr;
     typedef std::map<std::string, std::string> AttributeSet;
-    typedef std::function<IWidgetPtr(const AttributeSet &)> FromStringFunc;
+    typedef std::function<void(IWidgetPtr)> CallBackFunc;
+    typedef std::map<std::string, CallBackFunc> FunctionSet;
+    typedef
+        std::function<IWidgetPtr(const AttributeSet &, const FunctionSet &)>
+        FromStringFunc;
 }

@@ -60,7 +60,9 @@ namespace opentree {
             Rect _drawRect, _marginRect;
         
         public:
-            static IWidgetPtr create(const AttributeSet &attr);
+            static IWidgetPtr create(
+                const AttributeSet &attr, const FunctionSet &funcs
+            );
 
             MarginContainer(Rect margins);
             void setDrawRect(const Rect drawRect) override;
@@ -79,7 +81,9 @@ namespace opentree {
             int _separation;
         
         public:
-            static IWidgetPtr create(const AttributeSet &attr);
+            static IWidgetPtr create(
+                const AttributeSet &attr, const FunctionSet &funcs
+            );
 
             HBoxContainer(int separation);
             void setDrawRect(const Rect drawRect) override;
@@ -98,7 +102,9 @@ namespace opentree {
             int _separation;
         
         public:
-            static IWidgetPtr create(const AttributeSet &attr);
+            static IWidgetPtr create(
+                const AttributeSet &attr, const FunctionSet &funcs
+            );
 
             VBoxContainer(int separation);
             void setDrawRect(const Rect drawRect) override;

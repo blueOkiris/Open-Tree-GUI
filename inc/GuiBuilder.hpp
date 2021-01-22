@@ -7,15 +7,20 @@
 #include <Widget.hpp>
 #include <Window.hpp>
 
-namespace opentree {
+namespace opentree {    
     class GuiBuilder {
         private:
             std::map<std::string, FromStringFunc> _createFuncs;
+            FunctionSet _callBacks;
             IWidgetPtr _fromXmlElement(tinyxml2::XMLElement *elem);
         
         public:
             GuiBuilder();
-        
+            
+            void addCallBackFunction(
+                const std::string &funcName,
+                const CallBackFunc &func
+            );
             void addBuildFunction(
                 const std::string &tagName,
                 const FromStringFunc &func

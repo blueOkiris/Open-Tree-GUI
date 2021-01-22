@@ -101,7 +101,8 @@ void WindowContainer::draw(
 MarginContainer::MarginContainer(Rect margins) : _marginRect(margins) {
 }
 
-IWidgetPtr MarginContainer::create(const AttributeSet &attr) {
+IWidgetPtr MarginContainer::create(
+        const AttributeSet &attr, const FunctionSet &funcs) {
     /*
      * Should have one attribute "margin"
      * which is a comma delimited set like margin="0,0,0,0"
@@ -179,7 +180,8 @@ void MarginContainer::draw(
 HBoxContainer::HBoxContainer(int separation) : _separation(separation) {
 }
 
-IWidgetPtr HBoxContainer::create(const AttributeSet &attr) {
+IWidgetPtr HBoxContainer::create(
+        const AttributeSet &attr, const FunctionSet &funcs) {
     int separation = 0;
     
     for(const auto attrPair : attr) {
@@ -236,7 +238,8 @@ void HBoxContainer::draw(
 VBoxContainer::VBoxContainer(int separation) : _separation(separation) {
 }
 
-IWidgetPtr VBoxContainer::create(const AttributeSet &attr) {
+IWidgetPtr VBoxContainer::create(
+        const AttributeSet &attr, const FunctionSet &funcs) {
     int separation = 0;
     
     for(const auto attrPair : attr) {

@@ -10,7 +10,8 @@ ColorRect::ColorRect(
         _color(red, green, blue, alpha) {
 }
 
-IWidgetPtr ColorRect::create(const AttributeSet &attr) {
+IWidgetPtr ColorRect::create(
+        const AttributeSet &attr, const FunctionSet &funcs) {
     /*
      * Should have one attr "color"
      * color = "#--------"

@@ -27,6 +27,11 @@ void GuiBuilder::addBuildFunction(
     _createFuncs[tagName] = func;
 }
 
+void GuiBuilder::addCallBackFunction(
+        const std::string &funcName, const CallBackFunc &func) {
+    _callBacks[funcName] = func;
+}
+
 std::shared_ptr<Window> GuiBuilder::fromString(const std::string &src) {
     tinyxml2::XMLDocument doc(true, tinyxml2::COLLAPSE_WHITESPACE);
     auto errorCode = doc.Parse(src.c_str(), src.length());
@@ -136,7 +141,7 @@ IWidgetPtr GuiBuilder::_fromXmlElement(tinyxml2::XMLElement *elem) {
         attrList[attr->Name()] = attr->Value();
         attr = attr->Next();
     }
-    auto self = _createFuncs[elem->Name()](attrList);
+    auto self = _createFuncs[elem->Name()](attrList, _callBacks);
 
     // Add children
     auto child = elem->FirstChildElement();
