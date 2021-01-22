@@ -94,19 +94,24 @@ void ColorRect::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 
 Button::Button(
         const Color &base, const Color &hover, const Color &pressed,
-        const Color &baseFont, const Color &hoverFont, const Color &pressedFont,
+        const Color &baseFontColor, const Color &hoverFontColor,
+        const Color &pressedFontColor,
+        const sf::Font font,  const std::string &text,
         const CallBackFunc &callBack) :
         _baseColor(base.red, base.green, base.blue, base.alpha),
         _hoverColor(hover.red, hover.green, hover.blue, hover.alpha),
         _pressedColor(pressed.red, pressed.green, pressed.blue, pressed.alpha),
         _baseFontColor(
-            baseFont.red, baseFont.green, baseFont.blue, baseFont.alpha
+            baseFontColor.red, baseFontColor.green, baseFontColor.blue,
+            baseFontColor.alpha
         ), _hoverFontColor(
-            hoverFont.red, hoverFont.green, hoverFont.blue, hoverFont.alpha
+            hoverFontColor.red, hoverFontColor.green, hoverFontColor.blue,
+            hoverFontColor.alpha
         ), _pressedFontColor(
-            pressedFont.red, pressedFont.green, pressedFont.blue,
-            pressedFont.alpha
-        ), _callBack(callBack) {
+            pressedFontColor.red, pressedFontColor.green, pressedFontColor.blue,
+            pressedFontColor.alpha
+        ), _font(font), _text(text), _callBack(callBack),
+        _state(ButtonState::Normal) {
 }
 
 IWidgetPtr Button::create(
@@ -114,6 +119,8 @@ IWidgetPtr Button::create(
     Color base, hover, pressed;
     Color baseFont, hoverFont, pressedFont;
     CallBackFunc callBack = [](IWidgetPtr self) { };
+    std::string text;
+    sf::Font font;
     
     for(const auto attrPair : attr) {
         if(attrPair.first == "base-color"
@@ -169,6 +176,8 @@ IWidgetPtr Button::create(
             } else {
                 callBack = funcs[attrPair.second];
             }
+        } else if(attrPair.first == "text") {
+            text = attrPair.second;
         } else {
             std::cout
                 << "Unknown base attribute: "
@@ -177,7 +186,8 @@ IWidgetPtr Button::create(
     }  
     
     return std::make_shared<Button>(
-        base, hover, pressed, baseFont, hoverFont, pressedFont, callBack
+        base, hover, pressed, baseFont, hoverFont, pressedFont, font, text,
+        callBack
     );
 }
 
@@ -217,7 +227,20 @@ void Button::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     rect.setPosition(
         static_cast<float>(_drawRect.x), static_cast<float>(_drawRect.y)
     );
-
-    rect.setFillColor(_baseColor);
+    
+    switch(_state) {
+        case ButtonState::Normal:
+            rect.setFillColor(_baseColor);
+            break;
+        
+        case ButtonState::Hovering:
+            rect.setFillColor(_hoverColor);
+            break;
+            
+        case ButtonState::Pressed:
+            rect.setFillColor(_pressedColor);
+            break;
+    }
+    
     target.draw(rect);
 }

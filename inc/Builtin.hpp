@@ -47,13 +47,20 @@ namespace opentree {
             ) const override;
     };
     
+    enum class ButtonState {
+        Normal, Hovering, Pressed
+    };
+    
     struct Button : public IWidget {
         private:
             Rect _drawRect;
             sf::Color _baseColor, _hoverColor, _pressedColor;
             sf::Color _baseFontColor, _hoverFontColor, _pressedFontColor;
             sf::Font _font;
+            std::string _text;
             CallBackFunc _callBack;
+            
+            ButtonState _state;
             
         public:
             static IWidgetPtr create(
@@ -62,8 +69,9 @@ namespace opentree {
 
             Button(
                 const Color &base, const Color &hover, const Color &pressed,
-                const Color &baseFont, const Color &hoverFont,
-                const Color &pressedFont,
+                const Color &baseFontColor, const Color &hoverFontColor,
+                const Color &pressedFontColor,
+                const sf::Font font, const std::string &text,
                 const CallBackFunc &callBack
             );
             void setDrawRect(const Rect drawRect) override;
