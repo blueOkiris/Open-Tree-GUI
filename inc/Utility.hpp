@@ -11,6 +11,10 @@ namespace opentree {
     struct Vector2 {
         unsigned int x, y;
     };
+    
+    struct Color {
+        uint8_t red, green, blue, alpha;
+    };
 
     static inline std::vector<std::string> strsplit(
             const std::string &input, const char delim) {

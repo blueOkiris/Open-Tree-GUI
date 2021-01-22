@@ -1,13 +1,13 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <Utility.hpp>
 #include <Widget.hpp>
 #include <Builtin.hpp>
 
 using namespace opentree;
 
-ColorRect::ColorRect(
-        uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha) :
-        _color(red, green, blue, alpha) {
+ColorRect::ColorRect(const Color &color) :
+        _color(color.red, color.green, color.blue, color.alpha) {
 }
 
 IWidgetPtr ColorRect::create(
@@ -33,7 +33,7 @@ IWidgetPtr ColorRect::create(
                     );
                 } catch(...) {
                     std::cout
-                        << "Unknown value in color rect separation: "
+                        << "Unknown value in color rect color: "
                         << attrPair.second << std::endl;
                 }
             } else {
@@ -48,7 +48,7 @@ IWidgetPtr ColorRect::create(
         }
     }  
     
-    return std::make_shared<ColorRect>(red, green, blue, alpha);
+    return std::make_shared<ColorRect>(Color { red, green, blue, alpha });
 }
 
 
@@ -89,5 +89,135 @@ void ColorRect::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     );
 
     rect.setFillColor(_color);
+    target.draw(rect);
+}
+
+Button::Button(
+        const Color &base, const Color &hover, const Color &pressed,
+        const Color &baseFont, const Color &hoverFont, const Color &pressedFont,
+        const CallBackFunc &callBack) :
+        _baseColor(base.red, base.green, base.blue, base.alpha),
+        _hoverColor(hover.red, hover.green, hover.blue, hover.alpha),
+        _pressedColor(pressed.red, pressed.green, pressed.blue, pressed.alpha),
+        _baseFontColor(
+            baseFont.red, baseFont.green, baseFont.blue, baseFont.alpha
+        ), _hoverFontColor(
+            hoverFont.red, hoverFont.green, hoverFont.blue, hoverFont.alpha
+        ), _pressedFontColor(
+            pressedFont.red, pressedFont.green, pressedFont.blue,
+            pressedFont.alpha
+        ), _callBack(callBack) {
+}
+
+IWidgetPtr Button::create(
+        const AttributeSet &attr, FunctionSet funcs) {
+    Color base, hover, pressed;
+    Color baseFont, hoverFont, pressedFont;
+    CallBackFunc callBack = [](IWidgetPtr self) { };
+    
+    for(const auto attrPair : attr) {
+        if(attrPair.first == "base-color"
+                || attrPair.first == "hover-color"
+                || attrPair.first == "pressed-color"
+                || attrPair.first == "font-base-color"
+                || attrPair.first == "font-hover-color"
+                || attrPair.first == "font-pressed-color") {
+            if(attrPair.second[0] == '#' && attrPair.second.length() == 9) {
+                Color value = { 0, 0, 0, 0 };
+                try {
+                    value.red = std::stoi(
+                        attrPair.second.substr(1, 2), nullptr, 16
+                    );
+                    value.green = std::stoi(
+                        attrPair.second.substr(3, 2), nullptr, 16
+                    );
+                    value.blue = std::stoi(
+                        attrPair.second.substr(5, 2), nullptr, 16
+                    );
+                    value.alpha = std::stoi(
+                        attrPair.second.substr(7, 2), nullptr, 16
+                    );
+                } catch(...) {
+                    std::cout
+                        << "Unknown value in button base color: "
+                        << attrPair.second << std::endl;
+                }
+                
+                if(attrPair.first == "base-color") {
+                    base = value;
+                } else if(attrPair.first == "hover-color") {
+                    hover = value;
+                } else if(attrPair.first == "pressed-color") {
+                    pressed = value;
+                } else if(attrPair.first == "font-base-color") {
+                    baseFont = value;
+                } else if(attrPair.first == "font-hover-color") {
+                    hoverFont = value;
+                } else if(attrPair.first == "font-pressed-color") {
+                    pressedFont = value;
+                }
+            } else {
+                std::cout
+                    << "Button base-color in incorrect format: "
+                    << attrPair.second << std::endl;
+            }
+        } else if(attrPair.first == "on-click") {
+            if(funcs.find(attrPair.second) == funcs.end()) {
+                std::cout
+                    << "Failed to attach function '" << attrPair.second
+                    << "' to button!" << std::endl;
+            } else {
+                callBack = funcs[attrPair.second];
+            }
+        } else {
+            std::cout
+                << "Unknown base attribute: "
+                << attrPair.first << std::endl;
+        }
+    }  
+    
+    return std::make_shared<Button>(
+        base, hover, pressed, baseFont, hoverFont, pressedFont, callBack
+    );
+}
+
+
+void Button::setDrawRect(const Rect drawRect) {
+    _drawRect = drawRect;
+}
+
+void Button::onKeyPressed(
+        sf::Keyboard::Key code,
+        bool altPressed, bool ctrlPressed, bool shiftPressed,
+        bool systemPressed) {
+}
+void Button::onKeyReleased(
+        sf::Keyboard::Key code,
+        bool altPressed, bool ctrlPressed, bool shiftPressed,
+        bool systemPressed) {
+}
+void Button::onMouseButtonPressed(sf::Mouse::Button button, int x, int y) {
+}
+void Button::onMouseButtonReleased(sf::Mouse::Button button, int x, int y) {
+}
+void Button::onMouseMoved(int x, int y) {
+}
+void Button::onMouseScrolled(
+        sf::Mouse::Wheel wheel, float delta, int x, int y) {
+}
+void Button::onWindowResized(unsigned int width, unsigned int height) {
+}
+void Button::onTextEntered(uint32_t character) {
+}
+
+void Button::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+    sf::RectangleShape rect({
+        static_cast<float>(_drawRect.w), static_cast<float>(_drawRect.h)
+    });
+    rect.setPosition(
+        static_cast<float>(_drawRect.x), static_cast<float>(_drawRect.y)
+    );
+
+    rect.setFillColor(_baseColor);
     target.draw(rect);
 }
