@@ -210,8 +210,20 @@ void Button::onMouseButtonPressed(sf::Mouse::Button button, int x, int y) {
 }
 void Button::onMouseButtonReleased(sf::Mouse::Button button, int x, int y) {
 }
+
 void Button::onMouseMoved(int x, int y) {
+    if(_state != ButtonState::Pressed) {
+        if(x > static_cast<int>(_drawRect.x)
+                && x < static_cast<int>(_drawRect.x + _drawRect.w)
+                && y > static_cast<int>(_drawRect.y)
+                && y < static_cast<int>(_drawRect.y + _drawRect.h)) {
+            _state = ButtonState::Hovering;
+        } else {
+            _state = ButtonState::Normal;
+        }
+    }
 }
+
 void Button::onMouseScrolled(
         sf::Mouse::Wheel wheel, float delta, int x, int y) {
 }

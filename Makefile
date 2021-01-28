@@ -28,7 +28,7 @@ obj/%.o : src/%.cpp $(HEADERS)
 	$(CPPC) $(CPPFLAGS) -o $@ -c $<
 
 .PHONY : examples
-examples : sfml-ex simple text file
+examples : sfml-ex simple text file widget
 
 sfml-ex : $(wildcard examples/sfml-example/*.cpp)
 	$(CPPC) $(CPPFLAGS) -o $@ $^ $(LDFLAGS)
@@ -44,6 +44,10 @@ text : lib$(OBJNAME).a $(wildcard examples/text-example/*.cpp)
 file : lib$(OBJNAME).a $(wildcard examples/file-example/*.cpp)
 	$(CPPC) $(CPPFLAGS) -o $@ \
 		$(wildcard examples/file-example/*.cpp) -L. -lopentreegui $(LDFLAGS)
+
+widget : lib$(OBJNAME).a $(wildcard examples/widget-example/*.cpp)
+	$(CPPC) $(CPPFLAGS) -o $@ \
+		$(wildcard examples/widget-example/*.cpp) -L. -lopentreegui $(LDFLAGS)
 
 lib$(OBJNAME).a : $(OBJS)
 	$(LD) rcs $@ $(OBJS)

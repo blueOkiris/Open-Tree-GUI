@@ -20,6 +20,7 @@ GuiBuilder::GuiBuilder() {
     addBuildFunction("hbox-container", HBoxContainer::create);
     
     addBuildFunction("color-rect", ColorRect::create);
+    addBuildFunction("button", Button::create);
 }
 
 void GuiBuilder::addBuildFunction(

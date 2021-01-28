@@ -1,4 +1,7 @@
 libopentreegui.a
 sfml-ex
 simple
+text
+file
+widget
 obj/

@@ -1,0 +1,24 @@
+<window-container size='640,480' min-size='640,480' title='Text Example'>
+    <margin-container margin='0,0,0,0'>
+        <color-rect color='#FFFFFFFF'></color-rect>
+        <margin-container margin='15,15,15,15'>
+            <vbox-container separation='15'>
+                <!-- Define the button with multiple conts so it has a border-->
+                <margin-container margin='0,0,0,0'>
+                    <!-- color of outline -->
+                    <color-rect color='#7D4E57FF'></color-rect>
+                    <margin-container margin='3,3,3,3'>
+                        <button
+                            text='Click Me' on-click='btn-func'
+                            base-color='#4D333EFF'
+                            hover-color='#3B1F2BFF'
+                            pressed-color='#EF798AFF'
+                            font-base-color='#FFFFFFFF'
+                            font-hover-color='#D7263DFF'
+                            font-pressed-color='#8D9D9DFF'></button>
+                    </margin-container>
+                </margin-container>
+            </vbox-container>
+        </margin-container>
+    </margin-container>
+</window-container>

@@ -1,23 +1,23 @@
 <window-container size='640,480' min-size='640,480' title='Text Example'>
-   <margin-container margin='5,5,5,5'>
-       <color-rect color='#FFFFFFFF'></color-rect>
-       <vbox-container separation='32'>
-           <hbox-container separation='64'>
-               <margin-container margin='10,10,0,10'>
-                   <color-rect color='#0010FFFF'></color-rect>
-               </margin-container>
-               <margin-container margin='0,32,32,32'>
-                   <color-rect color='#002030FF'></color-rect>
-               </margin-container>
-           </hbox-container>
-           <hbox-container separation='64'>
-               <margin-container margin='10,10,0,10'>
-                   <color-rect color='#FF10FFFF'></color-rect>
-               </margin-container>
-               <margin-container margin='0,32,32,32'>
-                   <color-rect color='#E02030FF'></color-rect>
-               </margin-container>
-           </hbox-container>
-       </vbox-container>
+    <margin-container margin='5,5,5,5'>
+        <color-rect color='#FFFFFFFF'></color-rect>
+        <vbox-container separation='32'>
+            <hbox-container separation='64'>
+                <margin-container margin='10,10,0,10'>
+                    <color-rect color='#0010FFFF'></color-rect>
+                </margin-container>
+                <margin-container margin='0,32,32,32'>
+                    <color-rect color='#002030FF'></color-rect>
+                </margin-container>
+            </hbox-container>
+            <hbox-container separation='64'>
+                <margin-container margin='10,10,0,10'>
+                    <color-rect color='#FF10FFFF'></color-rect>
+                </margin-container>
+                <margin-container margin='0,32,32,32'>
+                    <color-rect color='#E02030FF'></color-rect>
+                </margin-container>
+            </hbox-container>
+        </vbox-container>
     </margin-container>
 </window-container>
